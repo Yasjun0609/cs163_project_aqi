@@ -1,4 +1,4 @@
-# modeling.py
+# modeling_1st_SARIMA_Jun.py
 
 from config import PROJECT_ROOT
 import pandas as pd
@@ -7,15 +7,6 @@ from datetime import datetime, timedelt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from scipy.stats import ttest_ind
-# This file models and trains various ML models that we had in this project.
-# Goes in order of; 
-
-# 1. SARIMA_1st attempt by Jun
-# 2. SARIMA_2nd attempt by Jun
-# 3.
-# 4.
-
-
 
 
 # ******************************************************************************************
@@ -85,47 +76,6 @@ monthly_forecast = forecast_by_timescale(monthly, 'MS', 10, 'monthly')
 yearly_forecast = forecast_by_timescale(yearly, 'YS', 10, 'yearly')
 
 forecast_df = pd.concat([daily_forecast, monthly_forecast, yearly_forecast])
-forecast_df.to_csv("SJV_AQI_Predictions_AllScales.csv", index=False)
+forecast_df.to_csv(PROJECT_ROOT/"data"/"processed"/"SJV_AQI_Predictions_AllScales.csv", index=False)
 
 
-
-
-# ******************************************************************************************
-
-# 2: 2nd SARIMA Attempt_Jun
-
-# ******************************************************************************************
-
-# Load data
-merged_df = pd.read_csv(PROJECT_ROOT/"data"/"processed"/"ready_pm25_fresno_with_Date.csv")
-merged_df['date'] = pd.to_datetime(merged_df['date'])
-merged_df = merged_df.sort_values('date')
-merged_df.set_index('date', inplace=True)
-
-# Target series
-series = merged_df['aqi_smoothed'].dropna()
-
-# Train/test split
-split = int(len(series) * 0.8)
-train, test = series.iloc[:split], series.iloc[split:]
-
-
-# Assuming train/test are defined
-model = SARIMAX(train,
-                order=(1,1,1),
-                seasonal_order=(1,1,1,7),
-                enforce_stationarity=False,
-                enforce_invertibility=False)
-results = model.fit(disp=False)
-
-# Forecast
-forecast = results.forecast(steps=len(test))
-
-# Metrics
-mae = mean_absolute_error(test, forecast)
-rmse = np.sqrt(mean_squared_error(test, forecast))
-r2 = r2_score(test, forecast)
-
-print(f"MAE: {mae:.2f}")
-print(f"RMSE: {rmse:.2f}")
-print(f"R² Score: {r2:.2f}")

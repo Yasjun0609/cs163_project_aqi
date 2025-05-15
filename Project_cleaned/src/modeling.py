@@ -2,6 +2,7 @@
 
 from config import PROJECT_ROOT
 import pandas as pd
+import numpy as np
 from datetime import datetime, timedelt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
@@ -108,10 +109,6 @@ series = merged_df['aqi_smoothed'].dropna()
 split = int(len(series) * 0.8)
 train, test = series.iloc[:split], series.iloc[split:]
 
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-import numpy as np
-import matplotlib.pyplot as plt
 
 # Assuming train/test are defined
 model = SARIMAX(train,

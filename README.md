@@ -23,27 +23,27 @@
 
 
 ## Installation
-
+```bash
 1. Clone the repo:
 
-```bash
+
 git clone https://github.com/Yasjun0609/cs163_project_aqi.git`
 cd cs163_project_aqi
-```
+
 
 
 
 2. (Recommended) Create a virtual environment:
-```bash
-python -m venv env`
+
+python -m venv env
 source env/bin/activate # On Windows: env\Scripts\activate`
-```
+
 
 3. Install required libraries:
 
-`pip install -r requirements.txt`
+pip install -r requirements.txt
 
-
+```
 
 ## How to get started
 
